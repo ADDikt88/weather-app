@@ -4,29 +4,42 @@
 // }
 function WeatherObject(
   location,
-  description,
   currentCondition,
-  datetime,
-  temperature,
-  feelsLike
+  currentTemperature,
+  currentFeelsLike,
+  currentPrecipProb,
+  tomorrowDescription,
+  tomorrowHigh,
+  tomorrowLow,
+  tomorrowPrecipProb
 ) {
   this.location = location;
-  this.description = description;
   this.currentCondition = currentCondition;
-  this.datetime = datetime;
-  this.temperature = temperature;
-  this.feelsLike = feelsLike;
+  this.currentTemperature = currentTemperature;
+  this.currentFeelsLike = currentFeelsLike;
+  this.currentPrecipProb = currentPrecipProb;
+  this.tomorrowDescription = tomorrowDescription;
+  this.tomorrowHigh = tomorrowHigh;
+  this.tomorrowLow = tomorrowLow;
+  this.tomorrowPrecipProb = tomorrowPrecipProb;
 }
 
 async function processWeatherData(location) {
   const jsonObject = await getWeatherData(location);
   let weatherObject = new WeatherObject();
   weatherObject.location = jsonObject.resolvedAddress;
-  weatherObject.description = jsonObject.description;
   weatherObject.currentCondition = jsonObject.currentConditions.conditions;
-  weatherObject.datetime = jsonObject.currentConditions.datetime;
-  weatherObject.temperature = jsonObject.currentConditions.temp;
-  weatherObject.feelsLike = jsonObject.currentConditions.feelslike;
+  weatherObject.currentTemperature =
+    jsonObject.currentConditions.temp + " \xB0" + "C";
+  weatherObject.currentFeelsLike =
+    jsonObject.currentConditions.feelslike + " \xB0" + "C";
+  weatherObject.currentPrecipProb =
+    jsonObject.currentConditions.precipprob + "%";
+
+  weatherObject.tomorrowDescription = jsonObject.days[1].description;
+  weatherObject.tomorrowHigh = jsonObject.days[1].tempmax + " \xB0" + "C";
+  weatherObject.tomorrowLow = jsonObject.days[1].tempmin + " \xB0" + "C";
+  weatherObject.tomorrowPrecipProb = jsonObject.days[1].precipprob + "%";
 
   return weatherObject;
 }
