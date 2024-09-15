@@ -13,3 +13,7 @@ body {
   align-items: center;
   justify-content: flex-start;
 }
+
+.weather-container > p {
+  font-size: 0.5rem;
+}
